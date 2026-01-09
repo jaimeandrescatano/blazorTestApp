@@ -1,6 +1,8 @@
 # Blazor Test App
 
-Just testing 
+This is my Blazor app for testing 
+
+Be happy! 
 
 ;) 
 
