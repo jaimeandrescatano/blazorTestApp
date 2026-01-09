@@ -1,4 +1,4 @@
-/* Manifest version: puPvygI+ */
+/* Manifest version: xcaRIsi+ */
 // Caution! Be sure you understand the caveats before publishing an application with
 // offline support. See https://aka.ms/blazor-offline-considerations
 
@@ -38,6 +38,7 @@ async function onActivate(event) {
         .map(key => caches.delete(key)));
 }
 
+/*
 async function onFetch(event) {
     let cachedResponse = null;
     if (event.request.method === 'GET') {
@@ -52,5 +53,19 @@ async function onFetch(event) {
         cachedResponse = await cache.match(request);
     }
 
+    return cachedResponse || fetch(event.request);
+}
+*/
+
+async function onFetch(event) {
+    let cachedResponse = null;
+    if (event.request.method === 'GET') {
+        // Look for the file in the cache first
+        const cache = await caches.open(cacheName);
+        cachedResponse = await cache.match(event.request);
+    }
+
+    // If it's in the cache, return it immediately! No network error.
+    // If not in cache, then try the network.
     return cachedResponse || fetch(event.request);
 }
