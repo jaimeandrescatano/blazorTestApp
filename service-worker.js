@@ -1,4 +1,4 @@
-/* Manifest version: l3ReHfKL */
+/* Manifest version: JEUHC41R */
 // Caution! Be sure you understand the caveats before publishing an application with
 // offline support. See https://aka.ms/blazor-offline-considerations
 
@@ -37,7 +37,7 @@ async function onActivate(event) {
         .filter(key => key.startsWith(cacheNamePrefix) && key !== cacheName)
         .map(key => caches.delete(key)));
 }
-
+/*
 async function onFetch(event) {
     let cachedResponse = null;
     if (event.request.method === 'GET') {
@@ -52,5 +52,26 @@ async function onFetch(event) {
         cachedResponse = await cache.match(request);
     }
 
+    return cachedResponse || fetch(event.request);
+}
+*/
+
+async function onFetch(event) {
+    let cachedResponse = null;
+    if (event.request.method === 'GET') {
+        // 1. Check if this is a navigation request (like hitting F5)
+        const isNavigation = event.request.mode === 'navigate';
+
+        // 2. On GitHub Pages, any navigation should lead to index.html
+        // We use a simpler check: if it's navigation, we FORCE index.html from cache
+        const request = isNavigation ? 'index.html' : event.request;
+
+        const cache = await caches.open(cacheName);
+        cachedResponse = await cache.match(request);
+    }
+
+    // 3. IMPORTANT: If offline, cachedResponse MUST be returned.
+    // fetch(event.request) will THROW an error if offline, 
+    // which is why you see the browser's "No Internet" page.
     return cachedResponse || fetch(event.request);
 }
