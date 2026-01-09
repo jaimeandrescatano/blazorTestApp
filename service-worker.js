@@ -73,5 +73,8 @@ async function onFetch(event) {
     // 3. IMPORTANT: If offline, cachedResponse MUST be returned.
     // fetch(event.request) will THROW an error if offline, 
     // which is why you see the browser's "No Internet" page.
-    return cachedResponse || fetch(event.request);
+    return cachedResponse || fetch(event.request).catch(() => {
+        // We caught the error, so the console stays cleaner.
+        console.log("Network request failed, Working offline!");
+    });
 }
