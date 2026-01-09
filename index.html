@@ -5,7 +5,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BlazorApp1</title>
-    <base href="/blazorTestApp/" />
+   
+    <base href="/" />
+    <script>
+        // Detect if we are NOT on localhost (i.e., we are on GitHub Pages)
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            var baseElement = document.getElementsByTagName('base')[0];
+            // GitHub repository name
+            baseElement.href = '/blazorTestApp/';
+        }
+    </script>
     <link href="_framework/dotnet.d60gvstckb.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-5aNfDHTEx8dAXl95tkYRLNUOKszvB+tdZiD+X6u0EIo=" />
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
@@ -49,12 +58,7 @@
         <a href="." class="reload">Reload</a>
         <span class="dismiss">🗙</span>
     </div>
-    <script>
-        // If we are NOT on localhost, change the base to the GitHub repo name
-        if (window.location.hostname !== 'localhost') {
-            document.getElementsByTagName('base')[0].href = '/blazorTestApp/';
-        }
-    </script>
+    
     <script src="_framework/blazor.webassembly.66stpp682q.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });</script>
 </body>
